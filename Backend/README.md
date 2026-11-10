@@ -28,6 +28,46 @@ Set `FRONTEND_URL` to the React app origin for password-reset links, and
 From `frontend/`, set `VITE_API_URL=http://localhost:8000/api` in
 `.env.local`, then start Vite with `npm run dev`.
 
+## Docker
+
+Run the development stack from `Backend/`:
+
+```sh
+docker compose up --build
+```
+
+The API is available at `http://localhost:8000`, phpMyAdmin at
+`http://localhost:8080`, and the MySQL port is bound to localhost on `3308`.
+The development Compose file uses MySQL even if the local `.env` is configured
+for SQLite; its `studentprofile` / `123456789` database credentials are only
+for development. To change the database name, set `DB_DATABASE` in
+`Backend/.env`. Apply schema changes with:
+
+```sh
+docker compose exec app php artisan migrate
+```
+
+Run the backend tests with:
+
+```sh
+docker compose exec app php artisan test
+```
+
+For production, copy `.env.production.example` to `.env.production`, set
+production-specific values and strong unique secrets, and generate `APP_KEY`
+with `php artisan key:generate --show` in a trusted PHP/Laravel environment.
+Then run from `Backend/`:
+
+```sh
+docker compose --env-file .env.production -f docker-compose.prod.yaml up -d --build
+docker compose --env-file .env.production -f docker-compose.prod.yaml exec app php artisan migrate --force
+```
+
+The production database is not published to the host, phpMyAdmin is omitted,
+and the web port is bound to localhost for a host-level TLS reverse proxy.
+Do not use the development Compose file or its fallback credentials in
+production.
+
 ## API endpoints
 
 ### Public
