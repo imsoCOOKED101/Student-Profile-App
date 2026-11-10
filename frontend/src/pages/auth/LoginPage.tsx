@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import loginStudents from "@/assets/login-students.svg";
 import Icon from "@/components/Icon";
+import studentLoginIllustration from "@/assets/student-login-illustration.svg";
 import { apiRequest, errorMessage, setToken, type User } from "@/lib/api";
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -35,50 +36,43 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="auth-page">
-      <section className="auth-card">
-        <div className="auth-form-panel">
-          <div className="auth-form-content">
-            <h1>Log in</h1>
-            <p className="auth-subtitle">Enter your account details</p>
+    <main className="student-login-page">
+      <section className="student-login-card">
+        <div className="student-login-form-panel">
+          <div className="student-login-form-content">
+            <div className="student-login-mark"><Icon name="shield" size={20} /></div>
+            <p className="student-login-eyebrow">STUDENT PROFILE · STUDENT</p>
+            <h1>Student sign in</h1>
+            <p className="student-login-subtitle">Use your student account to access your portal.</p>
             {location.state?.passwordReset && <p className="saved-message" role="status">Your password has been reset. Please log in.</p>}
-            <form className="auth-form" onSubmit={handleSubmit}>
+            <form className="student-login-form" onSubmit={handleSubmit}>
               <label>
-                <span>Username/Email</span>
+                <span>Email address or student ID</span>
                 <input autoComplete="username" name="identifier" required />
               </label>
               <label>
                 <span>Password</span>
-                <div className="password-field">
-                  <input
-                    autoComplete="current-password"
-                    name="password"
-                    required
-                    type={showPassword ? "text" : "password"}
-                  />
-                  <button
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    onClick={() => setShowPassword(!showPassword)}
-                    type="button"
-                  >
-                    <Icon name="help" size={15} />
-                  </button>
-                </div>
+                <input autoComplete="current-password" name="password" required type="password" />
               </label>
-              <Link className="forgot-link" to="/forgot-password">
-                Forgot your password?
-              </Link>
               {error && <p className="form-error" role="alert">{error}</p>}
-              <button className="button button-primary auth-submit" disabled={submitting} type="submit">
-                {submitting ? "Signing in..." : "Login"}
+              <button className="button button-primary student-login-submit" disabled={submitting} type="submit">
+                {submitting ? "Signing in..." : "Sign in to student portal"}
               </button>
             </form>
-            <p className="auth-switch">
-              Don&apos;t have an account? <Link to="/register">SignUp</Link>
-            </p>
+            <div className="student-login-links">
+              <p><Link to="/forgot-password">Forgot password?</Link><span> · </span>New student? <Link to="/register">Create an account</Link></p>
+            </div>
           </div>
         </div>
-        <AuthIllustration />
+        <section className="student-login-art-panel" aria-label="Student Portal welcome">
+          <div className="student-login-art-content">
+            <img alt="" className="student-login-art" src={studentLoginIllustration} />
+            <div className="student-login-art-copy">
+              <h2>Welcome <span>to the Student Portal</span></h2>
+              <p>Login to access your account</p>
+            </div>
+          </div>
+        </section>
       </section>
     </main>
   );
@@ -88,34 +82,7 @@ export function AuthIllustration() {
   return (
     <section className="auth-art-panel" aria-label="Student Portal welcome">
       <div className="auth-art-content">
-        <div className="art-scene">
-          <div className="art-sun" />
-          <div className="art-person person-one">
-            <i className="person-head" />
-            <i className="person-body" />
-            <i className="person-arm arm-left" />
-            <i className="person-arm arm-right" />
-            <i className="person-leg leg-left" />
-            <i className="person-leg leg-right" />
-          </div>
-          <div className="art-person person-two">
-            <i className="person-head" />
-            <i className="person-body" />
-            <i className="person-arm arm-left" />
-            <i className="person-arm arm-right" />
-            <i className="person-leg leg-left" />
-            <i className="person-leg leg-right" />
-          </div>
-          <div className="art-person person-three">
-            <i className="person-head" />
-            <i className="person-body" />
-            <i className="person-arm arm-left" />
-            <i className="person-arm arm-right" />
-            <i className="person-leg leg-left" />
-            <i className="person-leg leg-right" />
-          </div>
-          <div className="art-ground" />
-        </div>
+        <img alt="" className="art-scene" src={loginStudents} />
         <div className="art-copy">
           <h2>Welcome <span>to the Student Portal</span></h2>
           <p>Login to access your account</p>

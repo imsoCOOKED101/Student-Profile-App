@@ -42,7 +42,7 @@ export default function AnnouncementsPage() {
               </div>
             </article>
           );
-        }) : <p className="empty-notices">There are no announcements for your account.</p>}
+        }) : <p className="empty-notices">There are no announcements for your account!.</p>}
         {tab === "all" && announcements.length === 0 && !error && <p className="empty-notices">No current announcements.</p>}
       </section>
     </>
